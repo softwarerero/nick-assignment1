@@ -1,0 +1,67 @@
+<template name="listings">
+  <div class="listings">
+    <select class="years" multiple>
+      {{#each years}}
+      <option
+      {{yearSelected this}} value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+    {{#if makes}}
+    <select class="makes" multiple>
+      {{#each makes}}
+      <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+    {{/if}}
+    {{#if models}}
+    <select class="models" multiple>
+      {{#each models}}
+      <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+    {{/if}}
+    {{#if trims}}
+    <select class="trims" multiple>
+      {{#each trims}}
+      <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+    {{/if}}
+    <div id="value-added"></div>
+    {{#if isSearchEnabled}}
+      <button class="search pure-button">Search</button>
+    {{/if}}
+    <div id="listing-results">
+      {{> listingResults}}
+    </div>
+  </div>
+</template>
+
+<template name="listingResults">
+  {{#if listings}}
+  <table class="listingTable pure-table pure-table-striped">
+    <thead>
+    <tr>
+      <th>Image</th>
+      <th>Detail</th>
+      <th>Odometer</th>
+      <th>Color</th>
+      <th>Drive</th>
+      <th>Retail</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each listings}}
+    <tr id="{{_id}}">
+      <td>{{{image shopImage.url.desktop}}}</td>
+      <td>{{detail}}</td>
+      <td>{{odometer}}</td>
+      <td>{{color}}</td>
+      <td>{{drive}}</td>
+      <td>{{prices.retail_price}}</td>
+    </tr>
+    {{/each}}
+    </tbody>
+  </table>  
+  {{/if}}
+</template>

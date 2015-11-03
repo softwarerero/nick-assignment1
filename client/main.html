@@ -1,0 +1,25 @@
+<head>
+  <title>Carlypso Assignment 1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<template name="mainLayout">
+  <div id="wrap">
+    <header class="">
+      {{> menu}}
+    </header>
+    <main class="l-box">
+      {{>Template.dynamic template=content}}
+    </main>
+  </div>
+</template>
+
+<template name="menu">
+  <div class="menu">
+    <div class="pure-menu pure-menu-horizontal pull-left">
+      <a href="/" class="pure-menu-heading pure-menu-link">Carlypso Assignment 1</a>
+    </div>
+  </div>
+</template>
+
+

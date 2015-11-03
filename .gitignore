@@ -1,0 +1,8 @@
+.idea
+*.iml
+.meteor
+data
+lib/config.coffee
+packages/
+smart.json
+smart.lock
