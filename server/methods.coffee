@@ -28,7 +28,7 @@ Meteor.methods
         model: {$in: data.models}
         trim: {$in: data.trims}
       if data.value_added
-        query[condition_report][value_added] = {$in: data.value_added}
+        query["condition_report.value_added"] = {$in: data.value_added}
       if data.colors
         query.color = {$in: data.colors}
       listings = Listings.find query
