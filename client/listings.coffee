@@ -71,7 +71,7 @@ templateData = (template, what) ->
   ret = {}
   for w in ['years', 'makes', 'models', 'trims', 'colors']
     value = $(template.find('.'+w))?.val()
-    if value
+    if value?.length && value[0]
       if w is 'years'
         value = years2Int value
       ret[w] = value 
