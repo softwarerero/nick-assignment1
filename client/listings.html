@@ -27,6 +27,13 @@
       {{/each}}
     </select>
     {{/if}}
+    {{#if colors}}
+    <select class="colors" multiple>
+      {{#each colors}}
+      <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+    {{/if}}
     <div id="value-added"></div>
     {{#if isSearchEnabled}}
       <button class="search pure-button">Search</button>

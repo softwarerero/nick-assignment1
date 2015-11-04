@@ -1,7 +1,7 @@
 Meteor.methods
 
-  listingYears: () ->
-    (Listings.distinct 'year').sort().reverse()
+  listingYears: -> (Listings.distinct 'year').sort().reverse()
+  listingColors: -> (Listings.distinct 'color').sort()
   listingMakes: (data) ->
     if Match.test data, {years: [Number]}
       listings = Listings.find {year: {$in: data.years}}, {fields: {make: 1}}
@@ -20,13 +20,17 @@ Meteor.methods
       condition_report = pickVal listings, 'condition_report'
       uniqueSorted pickValueAdded condition_report
   searchListings: (data) ->
-    if Match.test data, {years: [Number], makes: [String], models: [String], trims: [String], value_added: [String]}
+    validation = {years: [Number], makes: [String], models: [String], trims: [String], value_added: Match.Optional([String]), colors: Match.Optional([String])}
+    if Match.test data, validation
       query =
         year: {$in: data.years}
         make: {$in: data.makes}
         model: {$in: data.models}
         trim: {$in: data.trims}
-        'condition_report.value_added': {$in: data.value_added}
+      if data.value_added
+        query[condition_report][value_added] = {$in: data.value_added}
+      if data.colors
+        query.color = {$in: data.colors}
       listings = Listings.find query
       listings.fetch()
 

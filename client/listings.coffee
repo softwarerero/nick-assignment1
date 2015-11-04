@@ -3,8 +3,11 @@ Template.listings.onCreated ->
     Session.set 'years', data
   Meteor.call 'listingMakes', {years: [new Date().getFullYear()]}, (error, data) ->
     Session.set 'makes', data
+  Meteor.call 'listingColors', (error, colors) ->
+    Session.set 'colors', colors
 
-#Template.listings.onRendered ->
+Template.listings.onRendered ->
+  clear this, ['makes', 'models', 'trims']
 #  $('select').select2 {}
 
 Template.listings.helpers
@@ -12,6 +15,7 @@ Template.listings.helpers
   makes: () -> Session.get 'makes'
   models: () -> Session.get 'models'
   trims: () -> Session.get 'trims'
+  colors: () -> Session.get 'colors'
   yearSelected: (y) -> if y is new Date().getFullYear() then 'selected' else ''
   isSearchEnabled: -> Session.get 'isSearchEnabled'
     
@@ -33,28 +37,20 @@ Template.listings.events
     Meteor.call 'listingTrims', data, (error, data) ->
       Session.set 'trims', data
   'change .trims': (event, template) ->
+    Session.set 'isSearchEnabled', true
     data = templateData template
     Meteor.call 'listingValueAdded', data, (error, data) ->
       if data
         $('#value-added').children().remove()
         container = $('#value-added')        
         for option in data
-          checkbox = document.createElement 'input'
-          checkbox.type = "checkbox"
-          checkbox.name = option
-          checkbox.id = option
-          checkbox.value = option
-          label = document.createElement 'label'
-          label.htmlFor = option
-          label.appendChild document.createTextNode option
-          container.append checkbox
-          container.append label
-  'change #value-added input[type="checkbox"]': (event, template) ->
-    bool = $('#value-added input[type="checkbox"]:checked').length > 2
-    Session.set 'isSearchEnabled', bool
+          createCheckbox container, option
+#  'change #value-added input[type="checkbox"]': (event, template) ->
+#    bool = $('#value-added input[type="checkbox"]:checked').length > 0
+#    Session.set 'isSearchEnabled', bool
   'click .search': (event, template) ->
     data = templateData template
-    data.value_added = valueAddedData template
+    valueAddedData template, data
     Meteor.call 'searchListings', data, (error, data) ->
       Session.set 'listings', data
 
@@ -73,7 +69,7 @@ clear = (template, what) ->
 
 templateData = (template, what) ->
   ret = {}
-  for w in ['years', 'makes', 'models', 'trims']
+  for w in ['years', 'makes', 'models', 'trims', 'colors']
     value = $(template.find('.'+w))?.val()
     if value
       if w is 'years'
@@ -81,11 +77,13 @@ templateData = (template, what) ->
       ret[w] = value 
   ret
   
-valueAddedData = (template) ->
+valueAddedData = (template, data) ->
   values = $(template.findAll('#value-added input[type="checkbox"]:checked'))
-  for v in values
+  value_added = for v in values
     v?.value
-  
+  if value_added.length
+    data.value_added = value_added
+
 years2Int = (years) ->
   if years
     for y in years
@@ -93,3 +91,14 @@ years2Int = (years) ->
   else
     []
   
+createCheckbox = (container, option) ->
+  checkbox = document.createElement 'input'
+  checkbox.type = "checkbox"
+  checkbox.name = option
+  checkbox.id = option
+  checkbox.value = option
+  label = document.createElement 'label'
+  label.htmlFor = option
+  label.appendChild document.createTextNode option
+  container.append checkbox
+  container.append label
