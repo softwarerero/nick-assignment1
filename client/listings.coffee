@@ -53,6 +53,11 @@ Template.listings.events
     valueAddedData template, data
     Meteor.call 'searchListings', data, (error, data) ->
       Session.set 'listings', data
+  'click .save': (event, template) ->
+    data = templateData template
+    valueAddedData template, data
+    Meteor.call 'saveSearch', data, (error, data) ->
+#      Session.set 'listings', data
 
 Template.listingResults.helpers
   listings: -> Session.get 'listings'

@@ -31,7 +31,7 @@ Meteor.methods
         query["condition_report.value_added"] = {$in: data.value_added}
       if data.colors
         query.color = {$in: data.colors}
-      listings = Listings.find query
+      listings = Listings.find query, {limit: Config.maxListings}
       listings.fetch()
 
       
