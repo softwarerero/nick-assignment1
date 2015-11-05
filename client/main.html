@@ -10,9 +10,9 @@
       {{> menu}}
     </header>
     <main class="l-box">
-      {{#onlyIfLoggedIn}}
+      {{#ifLoggedIn}}
         {{>Template.dynamic template=content}}
-      {{/onlyIfLoggedIn}}
+      {{/ifLoggedIn}}
     </main>
   </div>
 </template>
@@ -24,23 +24,43 @@
         <img src="img/carlypso_logo.png" class="logo"/>
         <div class="app-name">Sales Booster</div>
       </a>
-    </div>
-    <div class="pull-right">
-      {{> loginButtons align="right"}}
+    <ul class="pure-menu-list">
+      <li class="pure-menu-item"><a href="/queries" class="pure-menu-link">Queries</a></li>
+      {{#if isUser}}
+        <li class="pure-menu-item"><a href="/logout" class="pure-menu-link">Logout</a></li>
+      {{/if}}
+    </ul>
     </div>
   </div>
 </template>
 
 
-<template name="onlyIfLoggedIn">
+<template name="ifLoggedIn">
   {{#if authInProcess}}
-    <p>loading ...</p>
+    <i class="fa fa-spinner"></i>
   {{else}}
     {{#if canShow}}
       {{> UI.contentBlock }}
     {{else}}
-      <h2>It's good to be @home!</h2>
-      <p>Sign in for the fun part.</p>
+      {{> login}}
     {{/if}}
   {{/if}}
+</template>
+
+<template name="login">
+  <div class="login">
+    <h2>It's good to be @home!</h2>
+    <p>Sign in for the fun part.</p>
+    <!--<h1>Boarding <i class='fa fa-plane'></i></h1>-->
+    <form class="pure-form">
+      <fieldset>
+        {{#with defaultCredentials}}
+        <input class="email" placeholder="Email" value="{{email}}"/>
+        <input type="password" class="password" placeholder="Password" value="{{password}}"/>
+        {{/with}}
+      </fieldset>
+      <button class="signIn pure-button pure-button-primary">Get in</button>
+    </form>
+  </div>
 </template>    
+    

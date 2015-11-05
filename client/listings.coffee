@@ -56,8 +56,8 @@ Template.listings.events
   'click .save': (event, template) ->
     data = templateData template
     valueAddedData template, data
-    Meteor.call 'saveSearch', data, (error, data) ->
-#      Session.set 'listings', data
+    Meteor.call 'saveSearch', data, (error, _id) ->
+      FlowRouter.go '/queries/' + _id
 
 Template.listingResults.helpers
   listings: -> Session.get 'listings'

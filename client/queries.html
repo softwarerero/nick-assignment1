@@ -1,0 +1,66 @@
+<template name="queries">
+  <div id="queries">
+    <table class="queriesTable pure-table pure-table-striped">
+      <thead>
+      <tr>
+        <th>Date</th>
+        <th>Customer Email</th>
+        <th>Customer Tel</th>
+        <th>Query</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#each queries}}
+      <tr id="{{_id}}">
+        <td>{{formatDate date}}</td>
+        <td>{{customer_email}}</td>
+        <td>{{customer_tel}}</td>
+        <td>{{queryText}}</td>
+        <td class="actions">
+          <button class="pure-button edit" data-id="{{_id}}">
+            <i class='fa fa-edit'></i>
+          </button>
+          <button class="pure-button delete" data-id="{{_id}}">
+            <i class='fa fa-remove'></i>
+          </button>
+        </td>
+      </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>
+
+
+<template name="query">
+  <div id="query">
+    <form class="pure-form pure-form-stacked">
+      <fieldset>
+        {{#with query}}
+        <input id="_id" type="hidden" value="{{_id}}">
+
+        <div class="pure-g">
+          <div class="pure-u-1 pure-u-md-1-2">
+            <label for="customer_email">Customer Email</label>
+            <input id="customer_email" class="pure-u-23-24" type="text" value="{{customer_email}}">
+          </div>
+          
+          <div class="pure-u-1 pure-u-md-1-2">
+            <label for="customer_tel">Customer Tel</label>
+            <input id="customer_tel" class="pure-u-23-24" type="text" value="{{customer_tel}}">
+          </div>
+
+          <div class="pure-u-1 pure-u-md-1-1">
+            <label for="queryText">Query</label>
+            <textarea id="queryText" class="pure-u-23-24" rows="8">{{queryText}}</textarea>
+          </div>
+        </div>
+
+        <button class="pure-button pure-button-primary save">Submit</button>
+        <button class="pure-button delete">Delete</button>
+        {{/with}}
+      </fieldset>
+    </form>
+  </div>
+</template>    

@@ -17,6 +17,9 @@ header {
     .pure-menu-heading {
       padding-left: 0px;
     }
+    .pure-menu-item {
+      padding-top: 4px;
+    }
   }
 
   .signIn {
@@ -44,6 +47,15 @@ header {
 
 main {
   clear: both;
+
+  .login {
+    form {
+      display: inline;
+    }
+    width: 350px;
+    margin: auto;
+    text-align: center;
+  }
 }
 
 .action:hover {
@@ -75,3 +87,16 @@ main {
   }
 }
 
+#queries {
+  .actions {
+    min-width: 100px;
+  }
+}
+
+.pure-table td, .pure-table th {
+  padding-top: 0.1em !important;
+  padding-bottom: 0.1em !important;
+  padding-left: 0.2em !important;
+  padding-right: 0.2em !important;
+  font-size: 90%;
+}

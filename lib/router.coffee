@@ -1,12 +1,15 @@
 FlowRouter.route '/',
   action: () ->
     BlazeLayout.render "mainLayout", {content: "listings"}
-#    console.log '/: ' + Meteor.userId()
-#    if Meteor.userId()
-#      BlazeLayout.render "mainLayout", {content: "listings"}
-#    else
-#      BlazeLayout.render "mainLayout", {content: "home"}
 
-#FlowRouter.route '/listings',
-#  action: () -> BlazeLayout.render "mainLayout", {content: "listings"}
+FlowRouter.route '/queries',
+  action: () -> BlazeLayout.render "mainLayout", {content: "queries"}
+
+FlowRouter.route '/queries/:_id',
+  action: () -> BlazeLayout.render "mainLayout", {content: "query"}
+
+FlowRouter.route '/logout',
+  action: () ->
+    Meteor.logout()
+    FlowRouter.go '/'
     

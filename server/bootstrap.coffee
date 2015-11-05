@@ -2,6 +2,8 @@ fs = Npm.require('fs')
 
 Meteor.startup ->
   console.log 'listings: ' + Listings.find().count()
+  console.log 'queries: ' + Queries.find().count()
+  
   
   createUsers()
   if Config.smtp

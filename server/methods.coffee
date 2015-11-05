@@ -1,5 +1,5 @@
 Meteor.methods
-
+ 
   listingYears: -> (Listings.distinct 'year').sort().reverse()
   listingColors: -> (Listings.distinct 'color').sort()
   listingMakes: (data) ->
@@ -20,20 +20,19 @@ Meteor.methods
       condition_report = pickVal listings, 'condition_report'
       uniqueSorted pickValueAdded condition_report
   searchListings: (data) ->
-    validation = {years: [Number], makes: [String], models: [String], trims: [String], value_added: Match.Optional([String]), colors: Match.Optional([String])}
-    if Match.test data, validation
-      query =
-        year: {$in: data.years}
-        make: {$in: data.makes}
-        model: {$in: data.models}
-        trim: {$in: data.trims}
-      if data.value_added
-        query["condition_report.value_added"] = {$in: data.value_added}
-      if data.colors
-        query.color = {$in: data.colors}
-      listings = Listings.find query, {limit: Config.maxListings}
-      listings.fetch()
-
+    query = listingQuery data
+    console.log 'query: ' + JSON.stringify query
+    if query
+        listings = Listings.find query, {limit: Config.maxListings}
+        listings.fetch()
+  saveSearch: (data) ->
+    query = listingQuery data
+    if query
+      queryText = JSON.stringify query
+#      console.log JSON.stringify {userId: Meteor.userId(), date: new Date, queryText: queryText}
+      Queries.insert {userId: Meteor.userId(), date: new Date, queryText: queryText}, (error, _id) ->
+        console.log 'query inserted: ' + error
+        _id
       
       
 pickVal = (collection, name) ->
@@ -50,3 +49,17 @@ uniqueSorted = (arr) ->
   ret = arr.filter (value, index, array) ->
     array.indexOf(value, index + 1) < 0
   ret.sort()
+
+listingQuery = (data) ->
+  validation = {years: [Number], makes: [String], models: [String], trims: [String], value_added: Match.Optional([String]), colors: Match.Optional([String])}
+  if Match.test data, validation
+    query =
+      year: {$in: data.years}
+      make: {$in: data.makes}
+      model: {$in: data.models}
+      trim: {$in: data.trims}
+    if data.value_added
+      query["condition_report.value_added"] = {$in: data.value_added}
+    if data.colors
+      query.color = {$in: data.colors}
+    query

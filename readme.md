@@ -26,3 +26,4 @@ fortawesome:fontawesome
 meteorhacks:npm 
 natestrauser:select2
 mongodb-server-aggregation
+momentjs:moment
