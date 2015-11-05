@@ -61,7 +61,9 @@ Template.listings.events
 
 Template.listingResults.helpers
   listings: -> Session.get 'listings'
-  image: (url) -> if url then "<img src='#{url}'/>" else ""
+  image: (url) ->
+    if url isnt 'none'
+      if url then "<img src='#{url}'/>" else ""
 
 
 clear = (template, what) -> 
