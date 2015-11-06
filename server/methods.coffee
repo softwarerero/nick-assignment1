@@ -21,17 +21,23 @@ Meteor.methods
       uniqueSorted pickValueAdded condition_report
   searchListings: (data) ->
     query = listingQuery data
-    console.log 'query: ' + JSON.stringify query
+    query.sold = false
     if query
-        listings = Listings.find query, {limit: Config.maxListings}
-        listings.fetch()
+      listings = Listings.find query, {limit: Config.maxListings}
+      listings.fetch()
+  searchResult: (queryText) ->
+    data = JSON.parse queryText
+    if data
+      listings = Listings.find data, {limit: Config.maxListings}
+      listings.fetch()
   saveSearch: (data) ->
     query = listingQuery data
+    query.sold = false
     if query
       queryText = JSON.stringify query
 #      console.log JSON.stringify {userId: Meteor.userId(), date: new Date, queryText: queryText}
-      Queries.insert {userId: Meteor.userId(), date: new Date, queryText: queryText}, (error, _id) ->
-        console.log 'query inserted: ' + error
+      email = Meteor.user().emails[0].address
+      Queries.insert {userId: Meteor.userId(), date: new Date, email: email, queryText: queryText}, (error, _id) ->
         _id
       
       
@@ -51,8 +57,8 @@ uniqueSorted = (arr) ->
   ret.sort()
 
 listingQuery = (data) ->
-  validation = {years: [Number], makes: [String], models: [String], trims: [String], value_added: Match.Optional([String]), colors: Match.Optional([String])}
-  if Match.test data, validation
+  validation = {years: [Number], makes: [String], models: [String], trims: [String], value_added: Match.Optional([String]), colors: Match.Optional([String]), sold: Match.Optional(Boolean)}
+  if Match.test(data, validation)
     query =
       year: {$in: data.years}
       make: {$in: data.makes}
@@ -63,3 +69,4 @@ listingQuery = (data) ->
     if data.colors
       query.color = {$in: data.colors}
     query
+

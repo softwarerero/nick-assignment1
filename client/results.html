@@ -1,0 +1,12 @@
+<template name="results">
+  {{#with query}}
+    Customer Email: {{customer_email}}
+    <br/>
+    Customer Tel: {{customer_tel}}
+  {{/with}}
+  <div class="listings">
+    <div id="listing-results">
+      {{> listingResults}}
+    </div>
+  </div>
+</template>

@@ -14,6 +14,7 @@ https://kadira.io/academy/meteor-routing-guide/content/rendering-blaze-templates
 https://github.com/kadirahq/flow-router
 https://github.com/zvictor/meteor-mongo-server/
 https://select2.github.io/examples.html
+http://momentjs.com/docs/
 
 ### Packages
 coffeescript 
@@ -27,3 +28,4 @@ meteorhacks:npm
 natestrauser:select2
 mongodb-server-aggregation
 momentjs:moment
+email
