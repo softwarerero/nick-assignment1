@@ -6,3 +6,4 @@ lib/config.coffee
 packages/
 smart.json
 smart.lock
+orga.md
